@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JADC / Juel Tutorial Academy | Excellence in Academic Guidance</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandDark: '#0f2027',
+            brandNav: '#203a43',
+            brandBlue: '#2c5364',
+            brandGold: '#f59e0b',
+            brandGoldHover: '#d97706',
+            brandLight: '#f8fafc',
+          },
+          fontFamily: {
+            sans: ['Poppins', 'sans-serif'],
+            heading: ['Montserrat', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    .gradient-hero {
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    }
+    .gradient-card {
+      background: linear-gradient(145deg, #ffffff 0%, #f1f5f9 100%);
+    }
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .gold-glow {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.35);
+    }
+    .tab-page {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+    .tab-page.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0f2027;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f59e0b;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-brandLight text-slate-800 font-sans min-h-screen flex flex-col justify-between selection:bg-brandGold selection:text-brandDark">
+
+  <header class="sticky top-0 z-50 bg-brandDark/95 backdrop-blur-md border-b border-slate-700/50 shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo -->
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-brandGold to-yellow-300 flex items-center justify-center text-brandDark font-heading font-black text-2xl shadow-lg gold-glow">
+            J
+          </div>
+          <div class="flex flex-col">
+            <span class="font-heading font-extrabold text-xl sm:text-2xl text-white tracking-wider leading-none">JADC</span>
+            <span class="text-xs text-brandGold font-semibold tracking-widest uppercase mt-0.5">Juel Tutorial Academy</span>
+          </div>
+        </div>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex space-x-1 lg:space-x-2">
+          <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-brandGold bg-white/10 font-semibold">Home</button>
+          <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white hover:bg-white/5">About</button>
+          <button onclick="switchTab('classes')" id="nav-classes" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white hover:bg-white/5">Classes & Programs</button>
+          <button onclick="switchTab('registration')" id="nav-registration" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white hover:bg-white/5">Registration</button>
+          <button onclick="switchTab('blog')" id="nav-blog" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white hover:bg-white/5">Blog</button>
+          <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-slate-300 hover:text-white hover:bg-white/5">Contact</button>
+        </nav>
+
+        <!-- CTA Header Button -->
+        <div class="hidden lg:flex items-center space-x-4">
+          <button onclick="switchTab('registration')" class="px-5 py-2.5 bg-brandGold hover:bg-brandGoldHover text-brandDark font-heading font-bold text-sm rounded-lg shadow-md transition transform hover:-translate-y-0.5 active:translate-y-0">
+            <i class="fa-solid fa-user-plus mr-2"></i>Enroll Now
+          </button>
+        </div>
+
+        <!-- Mobile Menu Hamburger Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="p-2.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none">
+            <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden bg-brandNav border-b border-slate-700/80 px-4 pt-2 pb-6 space-y-2">
+      <button onclick="switchTab('home'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-brandGold bg-white/10">Home</button>
+      <button onclick="switchTab('about'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-white/5">About</button>
+      <button onclick="switchTab('classes'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-white/5">Classes & Programs</button>
+      <button onclick="switchTab('registration'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-white/5">Registration</button>
+      <button onclick="switchTab('blog'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-white/5">Blog</button>
+      <button onclick="switchTab('contact'); toggleMobileMenu()" class="mobile-nav-btn block w-full text-left px-4 py-3 rounded-lg text-base font-medium text-slate-300 hover:bg-white/5">Contact</button>
+      <div class="pt-2">
+        <button onclick="switchTab('registration'); toggleMobileMenu()" class="w-full py-3 bg-brandGold text-brandDark font-heading font-bold text-center rounded-lg shadow-md">
+          Enroll Now Today
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow">
+
+    <!-- ==================== HOME PAGE ==================== -->
+    <div id="page-home" class="tab-page active">
+      
+      <!-- Hero Section -->
+      <section class="gradient-hero relative overflow-hidden text-white py-20 lg:py-28 px-4 sm:px-6 lg:px-8">
+        <div class="absolute -right-20 -bottom-20 w-96 h-96 bg-brandGold/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-20 top-10 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+          <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+            <div class="inline-flex items-center space-x-2 bg-brandGold/15 border border-brandGold/30 text-brandGold px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide uppercase">
+              <i class="fa-solid fa-award"></i>
+              <span>Premier Tutorial Center in Ghana & Nigeria</span>
+            </div>
+            
+            <h1 class="font-heading font-extrabold text-3xl sm:text-5xl lg:text-6xl tracking-tight leading-tight">
+              Excellence in <span class="text-transparent bg-clip-text bg-gradient-to-r from-brandGold via-yellow-200 to-amber-400">Academic Guidance</span> & Exam Prep
+            </h1>
+            
+            <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-light leading-relaxed">
+              Empowering students across WAEC, NECO, UTME/JAMB, JS1-SS3 school curricula, and specialized skill tutorials. Join JADC / Juel Tutorial Academy to unlock your full academic potential.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+              <button onclick="switchTab('registration')" class="w-full sm:w-auto px-8 py-4 bg-brandGold hover:bg-brandGoldHover text-brandDark font-heading font-bold text-base rounded-xl shadow-xl transition transform hover:-translate-y-1">
+                <i class="fa-solid fa-graduation-cap mr-2"></i> Enroll Now
+              </button>
+              <button onclick="switchTab('classes')" class="w-full sm:w-auto px-8 py-4 glass-effect hover:bg-white/15 text-white font-heading font-semibold text-base rounded-xl transition border border-white/20">
+                Explore Courses <i class="fa-solid fa-arrow-right ml-2 text-brandGold"></i>
+              </button>
+            </div>
+
+            <!-- Features Highlights -->
+            <div class="pt-8 border-t border-slate-700/60 grid grid-cols-3 gap-4 text-center lg:text-left">
+              <div>
+                <p class="text-2xl sm:text-3xl font-heading font-extrabold text-brandGold">98.4%</p>
+                <p class="text-xs sm:text-sm text-slate-400">Exam Pass Rate</p>
+              </div>
+              <div>
+                <p class="text-2xl sm:text-3xl font-heading font-extrabold text-brandGold">5,000+</p>
+                <p class="text-xs sm:text-sm text-slate-400">Students Taught</p>
+              </div>
+              <div>
+                <p class="text-2xl sm:text-3xl font-heading font-extrabold text-brandGold">10+ Yrs</p>
+                <p class="text-xs sm:text-sm text-slate-400">Proven Mastery</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Decorative Graphic Card -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative w-full max-w-md">
+              <div class="glass-effect rounded-3xl p-6 sm:p-8 shadow-2xl relative z-10 border border-white/20">
+                <div class="flex items-center space-x-4 mb-6">
+                  <div class="w-14 h-14 rounded-2xl bg-brandGold/20 border border-brandGold/40 flex items-center justify-center text-brandGold text-2xl">
+                    <i class="fa-solid fa-book-bookmark"></i>
+                  </div>
+                  <div>
+                    <h3 class="font-heading font-bold text-lg text-white">Interactive Learning</h3>
+                    <p class="text-xs text-slate-300">Tailored tutoring for every student</p>
+                  </div>
+                </div>
+
+                <div class="space-y-4">
+                  <div class="bg-brandDark/60 p-4 rounded-xl border border-slate-700/50 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+                      <span class="text-sm font-medium text-slate-200">WAEC & NECO Intensive</span>
+                    </div>
+                    <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-md font-semibold">Active</span>
+                  </div>
+
+                  <div class="bg-brandDark/60 p-4 rounded-xl border border-slate-700/50 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+                      <span class="text-sm font-medium text-slate-200">UTME / JAMB CBT Drill</span>
+                    </div>
+                    <span class="text-xs bg-brandGold/20 text-brandGold px-2.5 py-1 rounded-md font-semibold">Enrolling</span>
+                  </div>
+
+                  <div class="bg-brandDark/60 p-4 rounded-xl border border-slate-700/50 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                      <i class="fa-solid fa-circle-check text-emerald-400 text-lg"></i>
+                      <span class="text-sm font-medium text-slate-200">Junior & Senior Secondary</span>
+                    </div>
+                    <span class="text-xs bg-blue-500/20 text-blue-300 px-2.5 py-1 rounded-md font-semibold">All Subjects</span>
+                  </div>
+                </div>
+
+                <!-- Floating Badge -->
+                <div class="mt-6 p-4 bg-gradient-to-r from-brandGold to-amber-500 text-brandDark rounded-2xl flex items-center justify-between font-heading font-bold shadow-lg">
+                  <div class="flex items-center space-x-3">
+                    <i class="fa-solid fa-user-graduate text-2xl"></i>
+                    <span class="text-sm">Join Next Batch Today</span>
+                  </div>
+                  <i class="fa-solid fa-chevron-right"></i>
+                </div>
+              </div>
+
+              <!-- Decorative Backdrop Shapes -->
+              <div class="absolute -top-6 -left-6 w-24 h-24 bg-brandGold/20 rounded-2xl rotate-12 -z-0"></div>
+              <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brandNav rounded-3xl -rotate-12 -z-0 border border-slate-700"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Intro Section -->
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <h2 class="text-xs font-bold text-brandGold tracking-widest uppercase mb-2">Why Choose JADC</h2>
+          <p class="font-heading font-extrabold text-2xl sm:text-4xl text-brandDark">Transforming Academic Challenges into Success Stories</p>
+          <p class="text-slate-600 mt-4 text-base">We combine experienced educators, modern learning methods, and dedicated mentorship to give every student the competitive edge.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div class="bg-white p-8 rounded-2xl shadow-md border border-slate-100 hover:shadow-xl transition transform hover:-translate-y-1">
+            <div class="w-14 h-14 bg-blue-50 text-brandBlue rounded-xl flex items-center justify-center text-2xl mb-6">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-brandDark mb-3">Expert Tutors</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Highly qualified subject specialists with years of experience navigating national and international exam formats.</p>
+          </div>
+
+          <div class="bg-white p-8 rounded-2xl shadow-md border border-slate-100 hover:shadow-xl transition transform hover:-translate-y-1">
+            <div class="w-14 h-14 bg-amber-50 text-brandGold rounded-xl flex items-center justify-center text-2xl mb-6">
+              <i class="fa-solid fa-laptop-code"></i>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-brandDark mb-3">CBT & Practical Practice</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">State-of-the-art mock examinations, CBT software drills, and interactive exercises mimicking live exam environments.</p>
+          </div>
+
+          <div class="bg-white p-8 rounded-2xl shadow-md border border-slate-100 hover:shadow-xl transition transform hover:-translate-y-1">
+            <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-2xl mb-6">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3 class="font-heading font-bold text-xl text-brandDark mb-3">Personalized Mentorship</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">Small group sizes ensure individualized attention, progress tracking, and customized study plans for every student.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ Section -->
+      <section class="bg-slate-100 py-16 px-4 sm:px-6 lg:px-8 border-t border-slate-200">
+        <div class="max-w-4xl mx-auto">
+          <div class="text-center mb-12">
+            <h2 class="text-xs font-bold text-brandGold tracking-widest uppercase mb-2">Got Questions?</h2>
+            <p class="font-heading font-extrabold text-2xl sm:text-3xl text-brandDark">Frequently Asked Questions</p>
+          </div>
+
+          <div class="space-y-4">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+              <button onclick="toggleFaq('faq-1')" class="w-full px-6 py-4 text-left font-heading font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50">
+                <span>What programs does JADC / Juel Tutorial Academy offer?</span>
+                <i class="fa-solid fa-chevron-down text-slate-400" id="faq-1-icon"></i>
+              </button>
+              <div id="faq-1" class="hidden px-6 pb-4 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                We offer comprehensive coaching for WAEC, NECO, UTME/JAMB, BECE, regular JS1-SS3 school curriculum support, remedial classes, and ICT/skills training.
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+              <button onclick="toggleFaq('faq-2')" class="w-full px-6 py-4 text-left font-heading font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50">
+                <span>Are classes available physically and online?</span>
+                <i class="fa-solid fa-chevron-down text-slate-400" id="faq-2-icon"></i>
+              </button>
+              <div id="faq-2" class="hidden px-6 pb-4 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                Yes! We conduct structured physical center classes as well as interactive live online virtual sessions for students who prefer studying from home.
+              </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+              <button onclick="toggleFaq('faq-3')" class="w-full px-6 py-4 text-left font-heading font-bold text-slate-800 flex justify-between items-center hover:bg-slate-50">
+                <span>How do I register for an upcoming session?</span>
+                <i class="fa-solid fa-chevron-down text-slate-400" id="faq-3-icon"></i>
+              </button>
+              <div id="faq-3" class="hidden px-6 pb-4 text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                You can easily complete the online Registration form right here on our website or visit our main administration desk. Our admissions team will contact you immediately.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ==================== ABOUT PAGE ==================== -->
+    <div id="page-about" class="tab-page">
+      <section class="bg-brandDark text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+          <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-brandGold mb-4">About Juel Tutorial Academy</h1>
+          <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-light">Dedicated to building a legacy of academic brilliance, integrity, and future leaders.</p>
+        </div>
+      </section>
+
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-16">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h2 class="text-xs font-bold text-brandGold tracking-widest uppercase mb-2">Our Story & Vision</h2>
+            <h3 class="font-heading font-extrabold text-2xl sm:text-3xl text-brandDark mb-6">Empowering Students to Reach Beyond Limits</h3>
+            <p class="text-slate-600 text-sm sm:text-base leading-relaxed mb-4">
+              JADC / Juel Tutorial Academy was established with a singular mission: to eliminate academic anxiety and equip students with robust knowledge, critical thinking skills, and exam strategies.
+            </p>
+            <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+              Through rigorous study schedules, experienced educators, and modern learning tools, we have helped thousands of students secure admission into top universities locally and internationally.
+            </p>
+          </div>
+          <div class="bg-gradient-to-tr from-brandDark to-brandBlue p-8 rounded-3xl text-white shadow-xl space-y-6">
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-brandGold text-brandDark rounded-xl flex items-center justify-center font-bold text-xl shrink-0">
+                <i class="fa-solid fa-bullseye"></i>
+              </div>
+              <div>
+                <h4 class="font-heading font-bold text-lg text-brandGold">Our Mission</h4>
+                <p class="text-slate-300 text-xs sm:text-sm mt-1">To deliver top-tier tutoring that fosters deep understanding, high exam performance, and lifelong learning habits.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start space-x-4">
+              <div class="w-12 h-12 bg-brandGold text-brandDark rounded-xl flex items-center justify-center font-bold text-xl shrink-0">
+                <i class="fa-solid fa-eye"></i>
+              </div>
+              <div>
+                <h4 class="font-heading font-bold text-lg text-brandGold">Our Vision</h4>
+                <p class="text-slate-300 text-xs sm:text-sm mt-1">To be the most trusted and impactful tutorial academy across West Africa.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Leadership / Tutors Preview -->
+        <div>
+          <div class="text-center max-w-2xl mx-auto mb-12">
+            <h2 class="text-xs font-bold text-brandGold tracking-widest uppercase mb-2">Academic Excellence</h2>
+            <p class="font-heading font-extrabold text-2xl sm:text-3xl text-brandDark">Our Core Academic Pillars</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 text-center shadow-sm">
+              <div class="w-16 h-16 bg-slate-100 text-brandBlue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 font-bold">
+                <i class="fa-solid fa-square-root-variable"></i>
+              </div>
+              <h4 class="font-heading font-bold text-lg text-brandDark">Mathematics & Sciences</h4>
+              <p class="text-slate-500 text-xs mt-2">Comprehensive problem-solving methodologies for Physics, Chemistry, Biology, and Further Math.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 text-center shadow-sm">
+              <div class="w-16 h-16 bg-slate-100 text-brandBlue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 font-bold">
+                <i class="fa-solid fa-pen-nib"></i>
+              </div>
+              <h4 class="font-heading font-bold text-lg text-brandDark">Arts & Commercial</h4>
+              <p class="text-slate-500 text-xs mt-2">In-depth literature analysis, Government, Economics, Financial Accounting, and Commerce.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 text-center shadow-sm">
+              <div class="w-16 h-16 bg-slate-100 text-brandBlue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 font-bold">
+                <i class="fa-solid fa-desktop"></i>
+              </div>
+              <h4 class="font-heading font-bold text-lg text-brandDark">CBT & Digital Literacy</h4>
+              <p class="text-slate-500 text-xs mt-2">Computer-based testing familiarity, speed technique drills, and basic software skills.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 text-center shadow-sm">
+              <div class="w-16 h-16 bg-slate-100 text-brandBlue rounded-full flex items-center justify-center text-2xl mx-auto mb-4 font-bold">
+                <i class="fa-solid fa-comments"></i>
+              </div>
+              <h4 class="font-heading font-bold text-lg text-brandDark">Counseling & Guidance</h4>
+              <p class="text-slate-500 text-xs mt-2">University career choice advisory, course selection strategy, and motivational sessions.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== CLASSES & PROGRAMS PAGE ==================== -->
+    <div id="page-classes" class="tab-page">
+      <section class="bg-brandDark text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+          <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-brandGold mb-4">Classes & Academic Programs</h1>
+          <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-light">Structured programs engineered for maximum examination success.</p>
+        </div>
+      </section>
+
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Course Card 1 -->
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md hover:shadow-2xl transition flex flex-col justify-between">
+            <div>
+              <div class="bg-brandDark p-6 text-white relative">
+                <span class="bg-brandGold text-brandDark font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider">Most Popular</span>
+                <h3 class="font-heading font-extrabold text-2xl mt-4">UTME / JAMB Intensive</h3>
+                <p class="text-slate-300 text-xs mt-1">Computer-Based Practice & High Score Drills</p>
+              </div>
+              <div class="p-6 space-y-4">
+                <div class="flex items-center text-sm text-slate-600 space-x-2">
+                  <i class="fa-regular fa-clock text-brandGold"></i>
+                  <span>Duration: 3 to 6 Months</span>
+                </div>
+                <ul class="space-y-2 text-sm text-slate-600">
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Daily Mock CBT Practice</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Past Questions Masterclass</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Time Management Tactics</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Subject Combination Counseling</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="p-6 border-t border-slate-100 bg-slate-50">
+              <button onclick="openCourseModal('UTME / JAMB Intensive')" class="w-full py-3 bg-brandDark hover:bg-brandBlue text-white font-heading font-bold text-sm rounded-xl transition">
+                Register for this Class
+              </button>
+            </div>
+          </div>
+
+          <!-- Course Card 2 -->
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md hover:shadow-2xl transition flex flex-col justify-between">
+            <div>
+              <div class="bg-brandNav p-6 text-white relative">
+                <span class="bg-blue-500 text-white font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider">Comprehensive</span>
+                <h3 class="font-heading font-extrabold text-2xl mt-4">WAEC & NECO Prep</h3>
+                <p class="text-slate-300 text-xs mt-1">SSCE Senior Secondary Certificate Prep</p>
+              </div>
+              <div class="p-6 space-y-4">
+                <div class="flex items-center text-sm text-slate-600 space-x-2">
+                  <i class="fa-regular fa-clock text-brandGold"></i>
+                  <span>Duration: Full Academic Term</span>
+                </div>
+                <ul class="space-y-2 text-sm text-slate-600">
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Theory & Practical Examinations</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Syllabus Coverage Guarantee</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Science Practical Worksheets</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Weekly Essay & Obj Assessments</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="p-6 border-t border-slate-100 bg-slate-50">
+              <button onclick="openCourseModal('WAEC & NECO Prep')" class="w-full py-3 bg-brandDark hover:bg-brandBlue text-white font-heading font-bold text-sm rounded-xl transition">
+                Register for this Class
+              </button>
+            </div>
+          </div>
+
+          <!-- Course Card 3 -->
+          <div class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md hover:shadow-2xl transition flex flex-col justify-between">
+            <div>
+              <div class="bg-brandBlue p-6 text-white relative">
+                <span class="bg-emerald-500 text-white font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider">Foundation</span>
+                <h3 class="font-heading font-extrabold text-2xl mt-4">JS1 - SS3 Regular Tutorials</h3>
+                <p class="text-slate-300 text-xs mt-1">After-school & Weekend Booster Lessons</p>
+              </div>
+              <div class="p-6 space-y-4">
+                <div class="flex items-center text-sm text-slate-600 space-x-2">
+                  <i class="fa-regular fa-clock text-brandGold"></i>
+                  <span>Duration: Ongoing Monthly</span>
+                </div>
+                <ul class="space-y-2 text-sm text-slate-600">
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Homework & Assignment Support</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Mathematics & English Focus</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Termly Report Cards for Parents</span></li>
+                  <li class="flex items-center space-x-2"><i class="fa-solid fa-check text-emerald-500"></i><span>Continuous Assessment Prep</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="p-6 border-t border-slate-100 bg-slate-50">
+              <button onclick="openCourseModal('JS1 - SS3 Regular Tutorials')" class="w-full py-3 bg-brandDark hover:bg-brandBlue text-white font-heading font-bold text-sm rounded-xl transition">
+                Register for this Class
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== REGISTRATION PAGE ==================== -->
+    <div id="page-registration" class="tab-page">
+      <section class="bg-brandDark text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+          <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-brandGold mb-4">Student Enrollment</h1>
+          <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-light">Complete the form below to secure your placement at JADC Academy.</p>
+        </div>
+      </section>
+
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
+        <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200">
+          
+          <div id="registration-feedback" class="hidden mb-6 p-4 rounded-xl text-sm font-medium"></div>
+
+          <form id="enrollment-form" onsubmit="handleRegistrationSubmit(event)" class="space-y-6">
+            <div class="border-b border-slate-200 pb-4">
+              <h3 class="font-heading font-bold text-lg text-brandDark">1. Student Information</h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Student Full Name *</label>
+                <input type="text" required id="reg-fullname" placeholder="e.g. Samuel Kwesi Mensah" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Email Address *</label>
+                <input type="email" required id="reg-email" placeholder="student@example.com" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Phone / WhatsApp Number *</label>
+                <input type="tel" required id="reg-phone" placeholder="+233 54 859 9056" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Date of Birth</label>
+                <input type="date" id="reg-dob" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition">
+              </div>
+            </div>
+
+            <div class="border-b border-slate-200 pb-4 pt-4">
+              <h3 class="font-heading font-bold text-lg text-brandDark">2. Program & Schedule Selection</h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Select Preferred Program *</label>
+                <select id="reg-program" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition bg-white">
+                  <option value="">-- Choose Program --</option>
+                  <option value="UTME / JAMB Intensive">UTME / JAMB Intensive</option>
+                  <option value="WAEC & NECO Prep">WAEC & NECO Prep</option>
+                  <option value="JS1 - SS3 Regular Tutorials">JS1 - SS3 Regular Tutorials</option>
+                  <option value="Special Skill / ICT Tutorial">Special Skill / ICT Tutorial</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Preferred Study Mode *</label>
+                <select id="reg-mode" required class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition bg-white">
+                  <option value="Physical Center">Physical Center Classes</option>
+                  <option value="Online Classes">Virtual / Online Classes</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="border-b border-slate-200 pb-4 pt-4">
+              <h3 class="font-heading font-bold text-lg text-brandDark">3. Parent / Guardian Details</h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Parent / Guardian Name *</label>
+                <input type="text" required id="reg-parent" placeholder="e.g. Mrs. Abigail Mensah" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wide mb-2">Parent Contact Phone *</label>
+                <input type="tel" required id="reg-parent-phone" placeholder="+233 27 515 6738" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold transition">
+              </div>
+            </div>
+
+            <div class="pt-4">
+              <button type="submit" class="w-full py-4 bg-brandGold hover:bg-brandGoldHover text-brandDark font-heading font-extrabold text-base rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+                Submit Enrollment Registration <i class="fa-solid fa-paper-plane ml-2"></i>
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== BLOG PAGE ==================== -->
+    <div id="page-blog" class="tab-page">
+      <section class="bg-brandDark text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+          <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-brandGold mb-4">Educational Blog & Insights</h1>
+          <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-light">Study strategies, exam advice, and student productivity articles.</p>
+        </div>
+      </section>
+
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Blog Card 1 -->
+          <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition">
+            <div class="h-48 bg-slate-800 relative flex items-center justify-center p-6 text-center text-white gradient-hero">
+              <div>
+                <span class="text-xs bg-brandGold text-brandDark font-bold px-2.5 py-1 rounded-md uppercase">Study Tips</span>
+                <h3 class="font-heading font-bold text-xl mt-3">Teamwork: Learn to Work Together</h3>
+              </div>
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-slate-400 mb-2"><i class="fa-regular fa-calendar mr-1"></i> September 28, 2026</p>
+              <p class="text-slate-600 text-sm leading-relaxed mb-4">Discover how peer collaboration and group study sessions elevate academic comprehension and memory retention...</p>
+              <button onclick="openBlogModal('Teamwork: Learn to Work Together', 'Collaborative learning is one of the most effective strategies for tackling complex high-school and university prep subjects. When students discuss problems together, they reinforce their own understanding while helping peers.')" class="text-brandGold font-heading font-bold text-sm hover:underline inline-flex items-center">
+                Read Full Article <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+          </article>
+
+          <!-- Blog Card 2 -->
+          <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition">
+            <div class="h-48 bg-slate-800 relative flex items-center justify-center p-6 text-center text-white bg-gradient-to-tr from-brandNav to-brandBlue">
+              <div>
+                <span class="text-xs bg-brandGold text-brandDark font-bold px-2.5 py-1 rounded-md uppercase">Exam Strategy</span>
+                <h3 class="font-heading font-bold text-xl mt-3">Mastering UTME CBT Speed</h3>
+              </div>
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-slate-400 mb-2"><i class="fa-regular fa-calendar mr-1"></i> September 20, 2026</p>
+              <p class="text-slate-600 text-sm leading-relaxed mb-4">Speed and accuracy are vital for JAMB CBT exams. Learn the top 5 techniques to manage your time efficiently...</p>
+              <button onclick="openBlogModal('Mastering UTME CBT Speed', 'Time management in JAMB can make or break your score. Always begin with your strongest subject, answer easier questions first, and use educated elimination for tough options.')" class="text-brandGold font-heading font-bold text-sm hover:underline inline-flex items-center">
+                Read Full Article <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+          </article>
+
+          <!-- Blog Card 3 -->
+          <article class="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-md hover:shadow-xl transition">
+            <div class="h-48 bg-slate-800 relative flex items-center justify-center p-6 text-center text-white bg-gradient-to-tr from-slate-900 to-brandNav">
+              <div>
+                <span class="text-xs bg-brandGold text-brandDark font-bold px-2.5 py-1 rounded-md uppercase">Motivation</span>
+                <h3 class="font-heading font-bold text-xl mt-3">Overcoming Exam Anxiety</h3>
+              </div>
+            </div>
+            <div class="p-6">
+              <p class="text-xs text-slate-400 mb-2"><i class="fa-regular fa-calendar mr-1"></i> September 14, 2026</p>
+              <p class="text-slate-600 text-sm leading-relaxed mb-4">Practical steps to build confidence, maintain focus, and enter the examination hall calm and prepared...</p>
+              <button onclick="openBlogModal('Overcoming Exam Anxiety', 'Preparation is the greatest antidote to anxiety. Maintaining a structured timetable and getting enough rest before exam day ensures your brain functions at peak performance.')" class="text-brandGold font-heading font-bold text-sm hover:underline inline-flex items-center">
+                Read Full Article <i class="fa-solid fa-arrow-right ml-1"></i>
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </section>
+    </div>
+
+    <!-- ==================== CONTACT PAGE ==================== -->
+    <div id="page-contact" class="tab-page">
+      <section class="bg-brandDark text-white py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto text-center">
+          <h1 class="font-heading font-extrabold text-3xl sm:text-5xl text-brandGold mb-4">Contact Us</h1>
+          <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-light">We are here to answer your questions and assist with your enrollment.</p>
+        </div>
+      </section>
+
+      <section class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          
+          <!-- Contact Details -->
+          <div class="space-y-8">
+            <div>
+              <h2 class="text-xs font-bold text-brandGold tracking-widest uppercase mb-2">Get In Touch</h2>
+              <h3 class="font-heading font-extrabold text-2xl sm:text-3xl text-brandDark">Visit or Call Our Academy</h3>
+            </div>
+
+            <div class="space-y-6">
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-brandDark text-brandGold rounded-xl flex items-center justify-center text-xl shrink-0">
+                  <i class="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                  <h4 class="font-heading font-bold text-base text-brandDark">Phone & WhatsApp</h4>
+                  <p class="text-slate-600 text-sm mt-1">+233 548 599 056</p>
+                  <p class="text-slate-600 text-sm">+233 275 156 738</p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-brandDark text-brandGold rounded-xl flex items-center justify-center text-xl shrink-0">
+                  <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                  <h4 class="font-heading font-bold text-base text-brandDark">Main Location</h4>
+                  <p class="text-slate-600 text-sm mt-1">Accra, Atico Station, Ghana</p>
+                  <p class="text-xs text-slate-400">Adjacent Main Highway Access</p>
+                </div>
+              </div>
+
+              <div class="flex items-start space-x-4">
+                <div class="w-12 h-12 bg-brandDark text-brandGold rounded-xl flex items-center justify-center text-xl shrink-0">
+                  <i class="fa-solid fa-envelope"></i>
+                </div>
+                <div>
+                  <h4 class="font-heading font-bold text-base text-brandDark">Email Inquiry</h4>
+                  <p class="text-slate-600 text-sm mt-1">info@juelacademy.com</p>
+                  <p class="text-slate-600 text-sm">admissions@juelacademy.com</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Embedded Map Visual Placeholder -->
+            <div class="bg-slate-200 rounded-2xl h-56 flex flex-col items-center justify-center border border-slate-300 text-slate-500">
+              <i class="fa-solid fa-map-location-dot text-4xl text-brandBlue mb-2"></i>
+              <span class="font-heading font-semibold text-sm">Accra, Atico Station Academy Center</span>
+            </div>
+          </div>
+
+          <!-- Quick Message Form -->
+          <div class="bg-white p-8 rounded-3xl shadow-xl border border-slate-200">
+            <h3 class="font-heading font-bold text-xl text-brandDark mb-6">Send Us a Direct Message</h3>
+            
+            <form onsubmit="handleContactSubmit(event)" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Your Name</label>
+                <input type="text" required placeholder="Full Name" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Email Address</label>
+                <input type="email" required placeholder="Email Address" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Subject</label>
+                <input type="text" required placeholder="Inquiry Subject" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Message</label>
+                <textarea rows="4" required placeholder="Type your message here..." class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-brandGold"></textarea>
+              </div>
+
+              <button type="submit" class="w-full py-3.5 bg-brandDark hover:bg-brandBlue text-white font-heading font-bold text-sm rounded-xl transition shadow-md">
+                Send Message <i class="fa-solid fa-paper-plane ml-2"></i>
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+    </div>
+
+  </main>
+
+  <footer class="bg-brandDark text-white border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        
+        <div class="space-y-4 md:col-span-1">
+          <div class="flex items-center space-x-3">
+            <div class="w-9 h-9 rounded-lg bg-brandGold flex items-center justify-center text-brandDark font-heading font-black text-xl">
+              J
+            </div>
+            <span class="font-heading font-extrabold text-lg text-white">JADC Academy</span>
+          </div>
+          <p class="text-slate-400 text-xs leading-relaxed">
+            Leading academic tutorial institution dedicated to standard exam excellence, student empowerment, and career growth.
+          </p>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-brandGold uppercase tracking-wider mb-4">Quick Links</h4>
+          <ul class="space-y-2 text-xs text-slate-300">
+            <li><a href="#" onclick="switchTab('home')" class="hover:text-brandGold transition">Home Page</a></li>
+            <li><a href="#" onclick="switchTab('about')" class="hover:text-brandGold transition">About Us</a></li>
+            <li><a href="#" onclick="switchTab('classes')" class="hover:text-brandGold transition">Academic Classes</a></li>
+            <li><a href="#" onclick="switchTab('registration')" class="hover:text-brandGold transition">Enrollment</a></li>
+            <li><a href="#" onclick="switchTab('blog')" class="hover:text-brandGold transition">Educational Blog</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-brandGold uppercase tracking-wider mb-4">Programs</h4>
+          <ul class="space-y-2 text-xs text-slate-300">
+            <li><span>UTME / JAMB Coaching</span></li>
+            <li><span>WAEC & NECO SSCE Prep</span></li>
+            <li><span>JS1 - SS3 Termly Support</span></li>
+            <li><span>Computer Literacy & CBT</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-bold text-sm text-brandGold uppercase tracking-wider mb-4">Contact Info</h4>
+          <ul class="space-y-2 text-xs text-slate-300">
+            <li><i class="fa-solid fa-phone text-brandGold mr-2"></i> +233 548 599 056</li>
+            <li><i class="fa-solid fa-phone text-brandGold mr-2"></i> +233 275 156 738</li>
+            <li><i class="fa-solid fa-location-dot text-brandGold mr-2"></i> Accra, Atico station</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="mt-8 pt-8 border-t border-slate-800 text-center text-xs text-slate-500">
+        <p>&copy; 2026 JADC / Juel Tutorial Academy. All rights reserved. Made In Ghana & Nigeria.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Article Modal -->
+  <div id="blog-modal" class="fixed inset-0 z-50 bg-black/70 hidden flex items-center justify-center p-4 backdrop-blur-sm">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 relative shadow-2xl">
+      <button onclick="closeBlogModal()" class="absolute top-4 right-4 w-8 h-8 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center text-slate-600">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <h3 id="modal-blog-title" class="font-heading font-extrabold text-2xl text-brandDark mb-4">Article Title</h3>
+      <p id="modal-blog-body" class="text-slate-600 text-sm leading-relaxed mb-6">Article content...</p>
+      <button onclick="closeBlogModal()" class="w-full py-3 bg-brandDark text-white font-heading font-bold rounded-xl text-sm">Close Article</button>
+    </div>
+  </div>
+
+  <script>
+    // Tab Page Switching Logic
+    function switchTab(tabId) {
+      // Hide all pages
+      const pages = document.querySelectorAll('.tab-page');
+      pages.forEach(page => page.classList.remove('active'));
+
+      // Deactivate all navbar buttons
+      const navBtns = document.querySelectorAll('.nav-btn');
+      navBtns.forEach(btn => {
+        btn.classList.remove('text-brandGold', 'bg-white/10', 'font-semibold');
+        btn.classList.add('text-slate-300');
+      });
+
+      // Show target page
+      const targetPage = document.getElementById('page-' + tabId);
+      if (targetPage) {
+        targetPage.classList.add('active');
+      }
+
+      // Highlight target nav button
+      const targetNav = document.getElementById('nav-' + tabId);
+      if (targetNav) {
+        targetNav.classList.remove('text-slate-300');
+        targetNav.classList.add('text-brandGold', 'bg-white/10', 'font-semibold');
+      }
+
+      // Scroll smoothly to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Mobile Navigation Drawer Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // FAQ Accordion Toggle
+    function toggleFaq(id) {
+      const faq = document.getElementById(id);
+      const icon = document.getElementById(id + '-icon');
+      
+      if (faq.classList.contains('hidden')) {
+        faq.classList.remove('hidden');
+        icon.classList.remove('fa-chevron-down');
+        icon.classList.add('fa-chevron-up');
+      } else {
+        faq.classList.add('hidden');
+        icon.classList.remove('fa-chevron-up');
+        icon.classList.add('fa-chevron-down');
+      }
+    }
+
+    // Course Selection Quick Transfer to Registration
+    function openCourseModal(courseName) {
+      switchTab('registration');
+      const select = document.getElementById('reg-program');
+      if (select) {
+        select.value = courseName;
+      }
+    }
+
+    // Handle Registration Form Submit
+    function handleRegistrationSubmit(e) {
+      e.preventDefault();
+      const feedback = document.getElementById('registration-feedback');
+      const name = document.getElementById('reg-fullname').value;
+      const program = document.getElementById('reg-program').value;
+
+      feedback.className = "mb-6 p-4 rounded-xl text-sm font-medium bg-emerald-50 text-emerald-800 border border-emerald-200 block";
+      feedback.innerHTML = `<i class="fa-solid fa-circle-check mr-2"></i> Thank you <strong>${name}</strong>! Your registration for <strong>${program}</strong> has been received. Our admissions officer will contact you shortly.`;
+
+      document.getElementById('enrollment-form').reset();
+    }
+
+    // Handle Contact Form Submit
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      alert("Thank you for reaching out! Your message has been sent successfully.");
+      e.target.reset();
+    }
+
+    // Blog Modal Handling
+    function openBlogModal(title, text) {
+      document.getElementById('modal-blog-title').innerText = title;
+      document.getElementById('modal-blog-body').innerText = text;
+      document.getElementById('blog-modal').classList.remove('hidden');
+    }
+
+    function closeBlogModal() {
+      document.getElementById('blog-modal').classList.add('hidden');
+    }
+  </script>
+</body>
+</html>
